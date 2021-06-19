@@ -1,0 +1,6 @@
+﻿Campo;Descripción 
+Línea ;Identificador de la línea a la que esta asociada la ruta 
+Ruta;Identificador de la ruta.
+Nodo;Id de la parada 
+Posición ;Distancia a la que esta la parada con respecto al punto de inicio de la ruta 
+Tipo Servicio ;Identificador de tipo de servicio al que pertenece la ruta 
