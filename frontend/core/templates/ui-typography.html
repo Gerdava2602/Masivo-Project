@@ -6,7 +6,7 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-
+<!--
         <div class="card">
             <div class="card-header card-header-primary">
               <h4 class="card-title">Material Dashboard Heading</h4>
@@ -102,7 +102,54 @@
               </div>
             </div>
         </div>
-
+-->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header card-header-tabs card-header-primary">
+        <div class="nav-tabs-navigation">
+          <div class="nav-tabs-wrapper">
+            <span class="nav-tabs-title">Predicción</span>
+            <ul class="nav nav-tabs" data-tabs="tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#demanda" data-toggle="tab">
+                  <i class="material-icons">code</i> Demanda
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#oferta" data-toggle="tab">
+                  <i class="material-icons">code</i> Oferta
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#settings" data-toggle="tab">
+                  <i class="material-icons">cloud</i> Rutas
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      {%load plotly_dash%}
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="tab-pane active" id="demanda">
+            <div class="{% plotly_class name='dash_integration_id' %}"'>
+              {% plotly_app name='dash_integration_id' ratio=1 %}
+            </div>
+          </div>  
+          <div class="tab-pane" id="oferta">
+            <div class="{% plotly_class name='SimpleExample' %}"'>
+              {% plotly_app name='SimpleExample' ratio=1 %}
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->

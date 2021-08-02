@@ -36,7 +36,8 @@ def pages(request):
         html_template = loader.get_template( 'page-404.html' )
         return HttpResponse(html_template.render(context, request))
 
-    except:
     
-        html_template = loader.get_template( 'page-500.html' )
-        return HttpResponse(html_template.render(context, request))
+    #except:
+    
+        #html_template = loader.get_template( 'page-500.html' )
+        #return HttpResponse(html_template.render(context, request))
