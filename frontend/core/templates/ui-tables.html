@@ -26,6 +26,12 @@
                   <div class="ripple-container"></div>
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#validaciones" data-toggle="tab">
+                  <i class="material-icons">code</i> Validaciones
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -34,7 +40,7 @@
             {%load plotly_dash%}
             <div class="card-body">
               <div class="tab-content">
-                <div class="tab-pane active" id="demanda">
+                <div class="tab-pane" id="validaciones">
                   <div class="{% plotly_class name='validaciones' %}"'>
                     {% plotly_app name='validaciones' ratio=0.65 %}
                   </div>
@@ -43,7 +49,12 @@
                   <div class="{% plotly_class name='localizacion_paraderos' %}"'>
                     {% plotly_app name='localizacion_paraderos' ratio=0.5 %}
                   </div>
-                </div>  
+                </div> 
+                <div class="tab-pane active" id="demanda">
+                  <div class="{% plotly_class name='historico_demanda_v2' %}"'>
+                    {% plotly_app name='historico_demanda_v2' ratio=0.5 %}
+                  </div>
+                </div> 
               </div>
             </div>
           </div>
