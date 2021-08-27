@@ -38,7 +38,10 @@ app.layout = html.Div(
                 ),
             ], className = 'six columns'),
 
-            # Adding one more app/component
+            html.Div([
+                html.H3(children='Line chart'),
+            ], className = 'row'),
+
             html.Div([
                 dcc.Graph(
                     id='line-chart',

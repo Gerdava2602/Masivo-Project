@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap4',
+    'bootstrap5',
     'dpd_static_support',
     'app',  # Enable the inner app
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
@@ -67,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app.variables.variables.my_variables'
             ],
         },
     },

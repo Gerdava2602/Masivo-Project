@@ -15,7 +15,7 @@
               <i class="material-icons">content_copy</i>
             </div>
             <p class="card-category">Flotas</p>
-            <h3 class="card-title">1,985
+            <h3 class="card-title">{{ flotas }}
             </h3>
           </div>
           <div class="card-footer">
@@ -32,8 +32,8 @@
             <div class="card-icon">
               <i class="material-icons">store</i>
             </div>
-            <p class="card-category">Demanda</p>
-            <h3 class="card-title">$34,245</h3>
+            <p class="card-category">Paradas</p>
+            <h3 class="card-title">{{ paradas }}</h3>
           </div>
           <div class="card-footer">
             <div class="stats">
@@ -48,8 +48,8 @@
             <div class="card-icon">
               <i class="material-icons">info_outline</i>
             </div>
-            <p class="card-category">Retrasos</p>
-            <h3 class="card-title">75</h3>
+            <p class="card-category">Rutas</p>
+            <h3 class="card-title">{{ rutas }}</h3>
           </div>
           <div class="card-footer">
             <div class="stats">
@@ -64,8 +64,8 @@
             <div class="card-icon">
               <i class="material-icons">info_outline</i>
             </div>
-            <p class="card-category">Rutas</p>
-            <h3 class="card-title">+200</h3>
+            <p class="card-category">Tipo vehículo más frecuente</p>
+            <h3 class="card-title">{{ tipo }}</h3>
           </div>
           <div class="card-footer">
             <div class="stats">
@@ -75,6 +75,7 @@
         </div>
       </div>
     </div>
+    <!--
     <div class="row">
       <div class="col-md-4">
         <div class="card card-chart">
@@ -126,6 +127,7 @@
         </div>
       </div>
     </div>
+    
     <div class="row">
       <div class="col-lg-6 col-md-12">
         <div class="card">
@@ -417,7 +419,109 @@
         </div>
       </div>
     </div>
-    
+    -->
+    {% load plotly_dash %}
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card">
+          <div class="card-header card-header-warning">
+            <h4 class="card-title">Data analysis</h4>
+            <p class="card-category">Important patterns and graphics of the information</p>
+          </div>
+          <div class="card-body">
+            <div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Operadores
+                    </button>
+                  </h5>
+                </div>
+            
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" >
+                  <div class="card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      Actividades & Oferta
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" >
+                  <div class="card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="headingThree">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      Demanda & Validaciones
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" >
+                  <div class="card-body">
+                    <div class="{% plotly_class name='validaciones_dashboard' %}"'>
+                      {% plotly_app name='validaciones_dashboard' ratio=1 %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">Graphics</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#demanda" data-toggle="tab">
+                      <i class="material-icons">code</i> Validaciones por vehículo
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#oferta" data-toggle="tab">
+                      <i class="material-icons">code</i> Validaciones por Operador
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          {%load plotly_dash%}
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="demanda">
+                <div class="{% plotly_class name='dash_integration_id' %}"'>
+                  {% plotly_app name='dash_integration_id' ratio=1 %}
+                </div>
+              </div>  
+              <div class="tab-pane" id="oferta">
+                <div class="{% plotly_class name='prueba' %}"'>
+                  {% plotly_app name='prueba' ratio=1 %}
+                </div>
+              </div>    
+            </div>
+          </div>
+        </div>
+      </div>
 
 {% endblock content %}
 

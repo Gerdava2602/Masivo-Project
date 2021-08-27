@@ -2,28 +2,17 @@ import dash_core_components as dcc
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 from django_plotly_dash import DjangoDash
-import plotly.graph_objs as go
 import plotly.express as px
 from dash.dependencies import Input, Output
-import psycopg2
+from datetime import date
 import pandas as pd
-
-def get_table(table_name):
-    conexion = psycopg2.connect(host="team-82.cc7kkbiuuvan.us-east-2.rds.amazonaws.com", database="masivo_capital", user="team_82", password="Ds4ateam_82")
-    # Creamos el cursor con el objeto conexion
-    cur = conexion.cursor()
-    cur.execute('SELECT * FROM '+table_name+' LIMIT 500')
-    data = cur.fetchall()
-    cur.execute("SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name='{}'".format(table_name))
-    table = pd.DataFrame(data, columns=[c[0] for c in cur])
-    table['id_vehiculo'] = table['id_vehiculo'].astype('category')
-    return table
+from app.variables import variables
 
 def get_inputs():
     inputs = []
     for col in drops:
         inputs.append(Input(str(col), 'value'))
-    return inputs
+    return inputs +[Input('date-range', 'start-date'), Input('date-range', 'end-date'),Input('totalization','value')]
 
 def get_forms(table):
     forms = []
@@ -42,14 +31,54 @@ def get_forms(table):
         ))
     return forms
 
-app1 = DjangoDash('prueba')
+app1 = DjangoDash('prueba', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-table = get_table('historico_demanda_v2')
+#table = get_table('historico_demanda_v2')
+table = variables.historico_demanda
+table['id_vehiculo'] = table['id_vehiculo'].astype('category')
 
 drops = ['nombre_de_ruta', 'id_vehiculo']
 
+filtered_tables = {
+    '0' : table.groupby(['descripcion', 'nombre_de_ruta','id_vehiculo'])['demanda'].sum().to_frame().reset_index(),
+    '1' : table.groupby(['dia', 'nombre_de_ruta','id_vehiculo'])['demanda'].sum().to_frame().reset_index(),
+    '2' : table.groupby(['semana', 'nombre_de_ruta','id_vehiculo'])['demanda'].sum().to_frame().reset_index()
+}
+
+fig = None
+
 controls = dbc.Card(
-    get_forms(table),
+    # Totalization settings
+    [
+        dbc.FormGroup(
+            [
+            dbc.Label("Choose the totalization"),
+            dbc.RadioItems(
+                options=[
+                    {"label": "Franjas", "value": 0},
+                    {"label": "Dias", "value": 1},
+                    {"label": "Semanas", "value": 2},
+                    {"label": "Meses", "value": 3},
+                ],
+                value=0,
+                id="totalization",
+                inline=True,
+            ),
+        ])
+    ]
+    #Filters
+    +get_forms(table)+
+    #Date Range
+    [
+        dcc.DatePickerRange(
+            id='date-range',
+            min_date_allowed=date(2021, 1, 1),
+            max_date_allowed=date(2021, 5, 31),
+            initial_visible_month=date(2021, 4, 5),
+            end_date=date(2021, 5, 31)
+        ),
+    ],
+    
     body=True,
 )
 
@@ -76,11 +105,24 @@ inputs = get_inputs()
         inputs,
 )
 def make_graph(*columns):
-    data = table[(table[drops[0]].isin(columns[0])) & (table[drops[1]].isin(columns[1]))]
-    demanda = data.groupby(['descripcion', 'nombre_de_ruta','id_vehiculo'])['demanda'].sum()
-    demanda = demanda.to_frame().reset_index()
+    global fig
+    start_date = columns[-3]
+    end_date = columns[-2]
+    #if start_date is not None and end_date is not None:
+        #start_date_object = date.fromisoformat(start_date)
+        #end_date_object = date.fromisoformat(end_date)
 
-    return px.bar(demanda, x='descripcion', y='demanda', color='id_vehiculo', facet_row="nombre_de_ruta", )
+    data = filtered_tables[str(columns[-1])][(filtered_tables[str(columns[-1])][drops[0]].isin(columns[0])) &
+                            (filtered_tables[str(columns[-1])][drops[1]].isin(columns[1]))] #&
+                            #(start_date <= filtered_tables[str(columns[-1])]['Fecha_clearing'] <= end_date)]
+
+    if columns[-1] == 0:
+        fig = px.bar(data, x='descripcion', y='demanda', color='id_vehiculo', facet_row="nombre_de_ruta", )
+    elif columns[-1] == 1:
+        fig = px.bar(data, x='dia', y='demanda', color='id_vehiculo', facet_row="nombre_de_ruta", )
+    elif columns[-1] == 2:
+        fig = px.bar(data, x='semana', y='demanda', color='id_vehiculo', facet_row="nombre_de_ruta", )
+    return fig
 
 
 if __name__ == "__main__":

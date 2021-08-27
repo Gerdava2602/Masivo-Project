@@ -1,11 +1,11 @@
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_core_components as dcc
-import psycopg2
 from django_plotly_dash import DjangoDash
 import pandas as pd
 from dash.dependencies import Output, Input, State
 from datetime import date
+from app.variables import variables
 
 #external_stylesheets = 'https://codepen.io/chriddyp/pen/bWLwgP.css'
 
@@ -17,17 +17,8 @@ app.css.append_css({
     "external_url": external_stylesheets
 })
 
-def get_table(table_name, limit=20):
-    conexion = psycopg2.connect(host="team-82.cc7kkbiuuvan.us-east-2.rds.amazonaws.com", database="masivo_capital", user="team_82", password="Ds4ateam_82")
-    # Creamos el cursor con el objeto conexion
-    cur = conexion.cursor()
-    cur.execute('SELECT * FROM '+table_name+' LIMIT '+str(limit))
-    data = cur.fetchall()
-    cur.execute("SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name='{}'".format(table_name))
-    table = pd.DataFrame(data, columns=[c[0] for c in cur])
-    return table
-
-table = get_table(table_name)
+#table = get_table(table_name)
+table = variables.validaciones_lite
 
 app.layout = dbc.Container([
     dbc.Row([
