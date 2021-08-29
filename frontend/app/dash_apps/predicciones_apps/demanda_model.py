@@ -13,6 +13,7 @@ import tensorflow as tf
 from sklearn.ensemble import RandomForestRegressor
 from joblib import dump, load
 from tensorflow import keras
+from dash.exceptions import PreventUpdate
 
 
 app1 = DjangoDash('demanda_model', external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -120,6 +121,7 @@ app1.layout = dbc.Container(
                     responsive=True,
                     striped=True),
                     dbc.Button("download", id='dn',color="primary", className="mr-1"),
+                    dcc.Download(id="download"),
                 ], id='table_col')
             ],
             align="center",
@@ -128,60 +130,56 @@ app1.layout = dbc.Container(
     fluid=True,
 )
 
-'''
-@app1.callback(
-        [Output("table_col", "children")],
-        [Input("reset", "n_clicks")]
-)
-def reset(*clicks):
-    global table
-    reset_table =  pd.DataFrame(columns=['Mes','Dia', 'Hora','Dia de la semana','tipo_viaje','linea','ruta','predicción'])
-    table = reset_table
-    return dbc.Table.from_dataframe(reset_table)
-'''
 
 @app1.callback(
         [Output("table_col", "children"), Output('last', 'value')],
-        [Input("add", "n_clicks") ,State('Mes','value'), State('Dia','value'), State('Hora','value'), State('Dia_semana','value'), State('viaje','value'), State('Linea','value'), State('Ruta','value')],
+        [Input("add", "n_clicks"), Input('reset', 'n_clicks'),State('Mes','value'), State('Dia','value'), State('Hora','value'), State('Dia_semana','value'), State('viaje','value'), State('Linea','value'), State('Ruta','value')],
         prevent_initial_call=True
 )
-def return_table(*columns):
+def return_table(*columns, **kwargs):
+    if None in columns[2:]:
+        raise PreventUpdate
     global table
     cluster = 0
     ro = []
     converted_columns = []
-    #Convert the info for the model processing
-    for i in columns:
-        try:
-            converted_columns.append(str(float(i)))
-        except:
-            converted_columns.append(i)
+    ctx = kwargs['callback_context'].triggered[0]['prop_id'].split('.')[0]
+    if ctx == 'add':   
+        #Convert the info for the model processing
+        for i in columns:
+            try:
+                converted_columns.append(str(float(i)))
+            except:
+                converted_columns.append(i)
 
-    for i in range(len(clusters[cluster].columns)):
-            if i < 3:   
-                ro.append(converted_columns[i+1])
-            else:
-                if clusters[cluster].columns[i] in converted_columns:
-                    ro.append(1)
+        for i in range(len(clusters[cluster].columns)):
+                if i < 3:   
+                    ro.append(converted_columns[i+2])
                 else:
-                    ro.append(0)
+                    if clusters[cluster].columns[i] in converted_columns[5:]:
+                        ro.append(1)
+                    else:
+                        ro.append(0)
 
-    ro = clusters[cluster].append(pd.Series(ro, index=clusters[cluster].columns), ignore_index=True).astype('float')
-    model = variables.models[cluster]
-    converted_columns.append([model.predict(ro)[0][0]])
-    predict_table = table.copy()
-    predict_table = predict_table.append(pd.Series(converted_columns[1:], index=table.columns), ignore_index=True)
-    table = predict_table   
-    return [dbc.Table.from_dataframe(predict_table, bordered=True,
-                    hover=True,
-                    responsive=True,
-                    striped=True), dbc.Button("Download", id='dn',color="primary", className="mr-1")], model.predict(ro)
+        ro = clusters[cluster].append(pd.Series(ro, index=clusters[cluster].columns), ignore_index=True).astype('float')
+        model = variables.models[cluster]
+        converted_columns.append([model.predict(ro)[0][0]])
+        predict_table = table.copy()
+        predict_table = predict_table.append(pd.Series(converted_columns[2:], index=table.columns), ignore_index=True)
+        table = predict_table   
+        return [dbc.Table.from_dataframe(predict_table, bordered=True,
+                        hover=True,
+                        responsive=True,
+                        striped=True), dbc.Button("download", id='dn',color="primary", className="mr-1"),
+                    dcc.Download(id="download"),], model.predict(ro)
+    elif ctx=='reset':
+        reset_table =  pd.DataFrame(columns=['Mes','Dia', 'Hora','Dia de la semana','tipo_viaje','linea','ruta','predicción'])
+        table = reset_table
+        return [dbc.Table.from_dataframe(reset_table),dbc.Button("download", id='dn',color="primary", className="mr-1"),
+                    dcc.Download(id="download"),], ''
 
 
 @app1.callback([Output("download", "data")], Input(component_id="dn", component_property="n_clicks"), prevent_initial_call=True)
 def generate_csv(n_clicks):
     global table
     return [dcc.send_data_frame(table.to_csv, filename= "predicciones_demanda.csv")]
-
-
-
