@@ -12,17 +12,11 @@
       <div class="card-header card-header-tabs card-header-primary">
         <div class="nav-tabs-navigation">
           <div class="nav-tabs-wrapper">
-            <span class="nav-tabs-title">Predicción</span>
+            <span class="nav-tabs-title">Registros</span>
             <ul class="nav nav-tabs" data-tabs="tabs">
               <li class="nav-item">
-                <a class="nav-link active" href="#demanda" data-toggle="tab">
-                  <i class="material-icons">code</i> Demanda
-                  <div class="ripple-container"></div>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#localizacion" data-toggle="tab">
-                  <i class="material-icons">code</i> Localizacion
+                <a class="nav-link active" href="#actividades" data-toggle="tab">
+                  <i class="material-icons">code</i> Actividades
                   <div class="ripple-container"></div>
                 </a>
               </li>
@@ -41,18 +35,13 @@
             <div class="card-body">
               <div class="tab-content">
                 <div class="tab-pane" id="validaciones">
-                  <div class="{% plotly_class name='validaciones' %}"'>
-                    {% plotly_app name='validaciones' ratio=0.65 %}
-                  </div>
-                </div>  
-                <div class="tab-pane" id="localizacion">
-                  <div class="{% plotly_class name='localizacion_paraderos' %}"'>
-                    {% plotly_app name='localizacion_paraderos' ratio=0.5 %}
+                  <div class="{% plotly_class name='validaciones_v2' %}"'>
+                    {% plotly_app name='validaciones_v2' ratio=0.65 %}
                   </div>
                 </div> 
-                <div class="tab-pane active" id="demanda">
-                  <div class="{% plotly_class name='historico_demanda_v2' %}"'>
-                    {% plotly_app name='historico_demanda_v2' ratio=0.5 %}
+                <div class="tab-pane active" id="actividades">
+                  <div class="{% plotly_class name='actividades' %}"'>
+                    {% plotly_app name='actividades' ratio=0.5 %}
                   </div>
                 </div> 
               </div>

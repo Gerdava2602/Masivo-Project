@@ -9,54 +9,53 @@ import plotly.express as px
 from dash.dependencies import Input, Output
 import pandas as pd
 
-app = DjangoDash('clusters')
-external_stylesheets=['https://codepen.io/amyoshino/pen/jzXypZ.css']
-app.css.append_css({
-    "external_url": external_stylesheets
-})
+app = DjangoDash('clusters', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 stations = pd.read_csv("core/static/mapa.csv")
 
+stations['cluster'] = stations['cluster'].astype('category')
 
-# ------------------------------------------------------------------------------
 # App layout
-app.layout = html.Div([
-
-
-    html.H1("Uso y clusterización de mapas SITP - Masivo Capital",
-            style={'text-align': 'center'}),
+app.layout = dbc.Container([
 
     html.Div([
-        dcc.Dropdown(id="slct_type",
-                     options=[
-                         {"label": "Ver Clusters", "value": "cluster"},
-                         {"label": "Ver Frecuencia", "value": "count"}],
-                     multi=False,
-                     value="count",
-                     style={'width': "40%", 'display': 'inline-block'}
-                     ),
-        html.Div(id='output_container', children=[]),
+        html.H1("Uso y clusterización de mapas SITP - Masivo Capital",
+                style={'text-align': 'center'}),
+
+        html.Div([
+            dcc.Dropdown(id="slct_type",
+                        options=[
+                            {"label": "Ver Clusters", "value": "cluster"},
+                            {"label": "Ver Frecuencia", "value": "count"}],
+                        multi=False,
+                        value="count",
+                        style={'width': "40%", 'display': 'inline-block'}
+                        ),
+            html.Div(id='output_container', children=[]),
+        ]),
+        html.Div([
+            dcc.Dropdown(id="slct_cluster",
+                        options=[
+                            {"label": "None", "value": -1},
+                            {"label": "0", "value": 0},
+                            {"label": "1", "value": 1},
+                            {"label": "2", "value": 2},
+                            {"label": "3", "value": 3},
+                            {"label": "4", "value": 4},
+                        ],
+                        multi=False,
+                        value=-1,
+                        style={'width': "40%", 'display': 'inline-block'}
+                        ),
+
+        ])
     ]),
     html.Div([
-        dcc.Dropdown(id="slct_cluster",
-                     options=[
-                         {"label": "All", "value": -1},
-                         {"label": "0", "value": 0},
-                         {"label": "1", "value": 1},
-                         {"label": "2", "value": 2},
-                         {"label": "3", "value": 3},
-                         {"label": "4", "value": 4},
-                     ],
-                     multi=True,
-                     value=-1,
-                     style={'width': "40%", 'display': 'inline-block'}
-                     ),
-
-    ]),
-    
-    dcc.Graph(id='stations', figure={}),
-
-])
+        dcc.Graph(id='stations', figure={}),
+    ])
+],
+fluid=True,
+)
 
 
 # ------------------------------------------------------------------------------

@@ -123,12 +123,6 @@
                   <div class="ripple-container"></div>
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#prueba" data-toggle="tab">
-                  <i class="material-icons">cloud</i> Rutas
-                  <div class="ripple-container"></div>
-                </a>
-              </li>
             </ul>
           </div>
         </div>
@@ -137,20 +131,15 @@
       <div class="card-body">
         <div class="tab-content">
           <div class="tab-pane active" id="demanda">
-            <div class="{% plotly_class name='dash_integration_id' %}"'>
-              {% plotly_app name='dash_integration_id' ratio=1 %}
+            <div class="{% plotly_class name='demanda_model' %}"'>
+              {% plotly_app name='demanda_model' ratio=1 %}
             </div>
           </div>  
           <div class="tab-pane" id="oferta">
             <div class="{% plotly_class name='SimpleExample' %}"'>
               {% plotly_app name='SimpleExample' ratio=1 %}
             </div>
-          </div>  
-          <div class="tab-pane" id="prueba">
-            <div class="{% plotly_class name='prueba' %}"'>
-              {% plotly_app name='prueba' ratio=1 %}
-            </div>
-          </div>  
+          </div>    
         </div>
       </div>
     </div>

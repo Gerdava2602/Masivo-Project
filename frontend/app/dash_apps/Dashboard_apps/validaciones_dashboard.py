@@ -15,11 +15,8 @@ app = DjangoDash('validaciones_dashboard', external_stylesheets=[dbc.themes.BOOT
 
 df = variables.validaciones
 #Promedio mensual de validaciones por hora para distintas paradas
-unique_values_paradas=df['parada'].unique()
-valid_suba_pltmeanparada=df.groupby(['parada', 'val_hour', 'fecha_claring'])['val_id'].count()
+valid_suba_pltmeanparada=df.groupby(['val_hour'])['val_id'].count()
 valid_suba_pltmeanparada=valid_suba_pltmeanparada.reset_index()
-valid_suba_pltmeanparada=valid_suba_pltmeanparada[valid_suba_pltmeanparada['parada'].isin(unique_values_paradas)]
-valid_suba_pltmeanparada=valid_suba_pltmeanparada.groupby(['parada', 'val_hour'])['val_id'].mean().reset_index()
 
 # promedio mensual de validaciones por hora para distintas linea
 valid_suba_pltmeanlinea=df.groupby(['linea', 'val_hour', 'fecha_claring'])['val_id'].count()
@@ -44,7 +41,7 @@ app.layout = dbc.Container(
                 html.Div([
                     dcc.Graph(
                         id='prom_hora',
-                        figure = go.Figure(px.line(valid_suba_pltmeanparada, x="val_hour", y="val_id", color='parada'))
+                        figure = go.Figure(px.bar(valid_suba_pltmeanparada, x="val_hour", y="val_id"))
                         
                     ),
                 ], className = 'six columns'),

@@ -7,12 +7,13 @@ from django.urls import path, re_path
 from app import views
 from app.dash_apps.predicciones_apps import simpleexample
 from app.dash_apps.predicciones_apps import example2
-from app.dash_apps.predicciones_apps import prueba
-from app.dash_apps.registros_apps import validaciones_table
-from app.dash_apps.registros_apps import localizacion_table
+from app.dash_apps.Dashboard_apps import prueba
+from app.dash_apps.Dashboard_apps import oferta_app
+from app.dash_apps.registros_apps import actividades_table
 from app.dash_apps.registros_apps import demanda_table
 from app.dash_apps.Maps_apps import map_dash
 from app.dash_apps.Dashboard_apps import validaciones_dashboard
+from app.dash_apps.predicciones_apps import demanda_model
 
 urlpatterns = [
 

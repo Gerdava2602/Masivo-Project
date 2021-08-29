@@ -431,21 +431,6 @@
           <div class="card-body">
             <div id="accordion">
               <div class="card">
-                <div class="card-header" id="headingOne">
-                  <h5 class="mb-0">
-                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                      Operadores
-                    </button>
-                  </h5>
-                </div>
-            
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" >
-                  <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                  </div>
-                </div>
-              </div>
-              <div class="card">
                 <div class="card-header" id="headingTwo">
                   <h5 class="mb-0">
                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -497,7 +482,7 @@
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#oferta" data-toggle="tab">
-                      <i class="material-icons">code</i> Validaciones por Operador
+                      <i class="material-icons">code</i> Ofertas por vehículo
                       <div class="ripple-container"></div>
                     </a>
                   </li>
@@ -509,13 +494,13 @@
           <div class="card-body">
             <div class="tab-content">
               <div class="tab-pane active" id="demanda">
-                <div class="{% plotly_class name='dash_integration_id' %}"'>
-                  {% plotly_app name='dash_integration_id' ratio=1 %}
-                </div>
-              </div>  
-              <div class="tab-pane" id="oferta">
-                <div class="{% plotly_class name='prueba' %}"'>
+                <div class="{% plotly_class name='prueba' %}">
                   {% plotly_app name='prueba' ratio=1 %}
+                </div>
+              </div> 
+              <div class="tab-pane" id="oferta">
+                <div class="{% plotly_class name='oferta' %}">
+                  {% plotly_app name='oferta' ratio=1 %}
                 </div>
               </div>    
             </div>

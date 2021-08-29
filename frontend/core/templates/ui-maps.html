@@ -7,9 +7,18 @@
 
 {% block content %}
 {%load plotly_dash%}
-    <div class="{% plotly_class name='clusters' %}"'>
-      {% plotly_app name='clusters' ratio=1 %}
+  <div class="card">
+    <div class="card-header card-header-warning">
+      <h4 class="card-title">Clusters</h4>
+      <p class="card-category">Important patterns and graphics of the information</p>
     </div>
+    {%load plotly_dash%}
+    <div class="card-body">
+      <div class="{% plotly_class name='clusters' %}"'>
+        {% plotly_app name='clusters' ratio=1 %}
+      </div>
+    </div>
+  </div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->

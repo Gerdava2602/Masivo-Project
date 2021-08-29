@@ -6,19 +6,26 @@ import pandas as pd
 from dash.dependencies import Output, Input, State
 from datetime import date
 from app.variables import variables
+import psycopg2
 
 #external_stylesheets = 'https://codepen.io/chriddyp/pen/bWLwgP.css'
 
-table_name = 'historico_demanda_v2'
-app = DjangoDash(table_name, add_bootstrap_links=True)
+table_name = 'validaciones_v2'
+app = DjangoDash(table_name, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-external_stylesheets=['https://codepen.io/amyoshino/pen/jzXypZ.css']
-app.css.append_css({
-    "external_url": external_stylesheets
-})
+
+def get_table(table_name, limit=20):
+    conexion = psycopg2.connect(host="team-82.cc7kkbiuuvan.us-east-2.rds.amazonaws.com", database="masivo_capital", user="team_82", password="Ds4ateam_82")
+    # Creamos el cursor con el objeto conexion
+    cur = conexion.cursor()
+    cur.execute('SELECT * FROM '+table_name+' LIMIT '+str(limit))
+    data = cur.fetchall()
+    cur.execute("SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name='{}'".format(table_name))
+    table = pd.DataFrame(data, columns=[c[0] for c in cur])
+    return table
 
 #table = get_table(table_name)
-table = variables.validaciones_lite
+table = get_table(table_name)
 
 app.layout = dbc.Container([
     dbc.Row([
