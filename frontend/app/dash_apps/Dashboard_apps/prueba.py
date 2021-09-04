@@ -120,7 +120,6 @@ def make_graph(*columns):
         elif columns[-1] == 3:
             fig = px.bar(data, x='val_month', y='demanda', color='vehiculo', hover_data=['ruta_modificada'])
     fig.for_each_annotation(lambda a: a.update(text=a.text.split("=")[1]))
-    fig.for_each_trace(lambda t: t.update(name=t.name.split("=")[1]))
     return fig
 
 
