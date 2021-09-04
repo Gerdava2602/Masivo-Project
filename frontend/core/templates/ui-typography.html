@@ -1,0 +1,66 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Typography {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header card-header-tabs card-header-primary">
+        <div class="nav-tabs-navigation">
+          <div class="nav-tabs-wrapper">
+            <span class="nav-tabs-title">Predicción</span>
+            <ul class="nav nav-tabs" data-tabs="tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#demanda" data-toggle="tab">
+                  <i class="material-icons">code</i> Demanda
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#oferta" data-toggle="tab">
+                  <i class="material-icons">code</i> Oferta
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      {%load plotly_dash%}
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="tab-pane active" id="demanda">
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+              <strong>Hi!</strong> This page will let you predict <strong>Demand</strong> in the given scenario inside a table. Then, you may be able to download the predictions in a csv.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="{% plotly_class name='demanda_model' %}"'>
+              {% plotly_app name='demanda_model' ratio=1 %}
+            </div>
+          </div>  
+          <div class="tab-pane" id="oferta">
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+              <strong>Hi!</strong> This page will let you predict <strong>Offer</strong> in the given scenario inside a table. Then, you may be able to download the predictions in a csv.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="{% plotly_class name='oferta_model' %}"'>
+              {% plotly_app name='oferta_model' ratio=1 %}
+            </div>
+          </div>    
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

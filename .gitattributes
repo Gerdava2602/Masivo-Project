@@ -1,0 +1,4 @@
+data/Masivo_capital_4_validaciones/Reporte[[:space:]]de[[:space:]]Validaciones_Zonal_112[[:space:]]Kennedy_202104_Semana[[:space:]]14.csv filter=lfs diff=lfs merge=lfs -text
+data/Masivo_capital_4_validaciones/Reporte[[:space:]]de[[:space:]]Validaciones_Zonal_112[[:space:]]Kennedy_202104_Semana[[:space:]]15.csv filter=lfs diff=lfs merge=lfs -text
+data/Masivo_capital_4_validaciones/Reporte[[:space:]]de[[:space:]]Validaciones_Zonal_112[[:space:]]Kennedy_202104_Semana[[:space:]]16.csv filter=lfs diff=lfs merge=lfs -text
+data/Masivo_capital_5_programacion/Reporte[[:space:]]Progrmacion[[:space:]]de[[:space:]]Operadores_202104.csv filter=lfs diff=lfs merge=lfs -text

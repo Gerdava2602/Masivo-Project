@@ -1,0 +1,66 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Tables {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header card-header-tabs card-header-primary">
+        <div class="nav-tabs-navigation">
+          <div class="nav-tabs-wrapper">
+            <span class="nav-tabs-title">Registros</span>
+            <ul class="nav nav-tabs" data-tabs="tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#actividades" data-toggle="tab">
+                  <i class="material-icons">code</i> Actividades
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#validaciones" data-toggle="tab">
+                  <i class="material-icons">code</i> Validaciones
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+            
+            {%load plotly_dash%}
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane" id="validaciones">
+                  <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <strong>Hi!</strong> This page will let you visualize and download registers of <strong>validaciones</strong>.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="{% plotly_class name='validaciones_v2' %}"'>
+                    {% plotly_app name='validaciones_v2' ratio=0.65 %}
+                  </div>
+                </div> 
+                <div class="tab-pane active" id="actividades">
+                  <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <strong>Hi!</strong> This page will let you visualize and download registers of <strong>actividades</strong>.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="{% plotly_class name='actividades' %}"'>
+                    {% plotly_app name='actividades' ratio=0.5 %}
+                  </div>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

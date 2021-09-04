@@ -1,0 +1,193 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">content_copy</i>
+            </div>
+            <p class="card-category">Flotas</p>
+            <h3 class="card-title">{{ flotas }}
+            </h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons text-danger">content_paste</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">store</i>
+            </div>
+            <p class="card-category">Paradas</p>
+            <h3 class="card-title">{{ paradas }}</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">date_range</i> últimas 24 horas
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-danger card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">info_outline</i>
+            </div>
+            <p class="card-category">Rutas</p>
+            <h3 class="card-title">{{ rutas }}</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">local_offer</i> Rastreado desde  Masivo Capital
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">info_outline</i>
+            </div>
+            <p class="card-category">Paradero con mayor demanda</p>
+            <h3 class="card-title">{{ tipo }}</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">update</i> Recién actualizado
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% load plotly_dash %}
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="card">
+          <div class="card-header card-header-warning">
+            <h4 class="card-title">Data analysis</h4>
+            <p class="card-category">Important patterns and graphics of the information</p>
+          </div>
+          <div class="card-body">
+            <div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingTwo">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      Actividades & Oferta
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" >
+                  <div class="card-body">
+                    <div class="{% plotly_class name='actividades_dashboard' %}"'>
+                      {% plotly_app name='actividades_dashboard' ratio=1 %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="headingThree">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      Demanda & Validaciones
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" >
+                  <div class="card-body">
+                    <div class="{% plotly_class name='validaciones_dashboard' %}"'>
+                      {% plotly_app name='validaciones_dashboard' ratio=1 %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">Graphics</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#demanda" data-toggle="tab">
+                      <i class="material-icons">code</i> Validaciones por vehículo
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#oferta" data-toggle="tab">
+                      <i class="material-icons">code</i> Ofertas por vehículo
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          {%load plotly_dash%}
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="demanda">
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                  <strong>Hi!</strong> This page will let you visualize and totalize information with the given attributes. You may be able to filter out the information and observe it.
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="{% plotly_class name='prueba' %}">
+                  {% plotly_app name='prueba' ratio=1 %}
+                </div>
+              </div> 
+              <div class="tab-pane" id="oferta">
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                  <strong>Hi!</strong> This page will let you visualize and totalize information with the given attributes. You may be able to filter out the information and observe it.
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="{% plotly_class name='oferta' %}">
+                  {% plotly_app name='oferta' ratio=1 %}
+                </div>
+              </div>    
+            </div>
+          </div>
+        </div>
+      </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <script>
+    $(document).ready(function() {
+      // Javascript method's body can be found in assets/js/demos.js
+      md.initDashboardPageCharts();
+
+    });
+  </script>
+
+{% endblock javascripts %}
